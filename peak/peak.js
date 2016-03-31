@@ -39,4 +39,4 @@ module.exports = {
   binary: function(array) {
     return binary(array, 0, array.length - 1);
   }
-}
+};

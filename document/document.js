@@ -3,13 +3,12 @@
 class Dictionary {
   constructor(text) {
     this.dict = {};
-    this.sum = 0;
 
     let words = text.split(' ');
 
     for(let word of words) {
       // allow only Latin & Russian characters, digits and underscore
-      let trimmedWord = word.replace(/[^\w\u0430-\u044f]/gi, '');
+      let trimmedWord = word.replace(/[^\w\u0430-\u044f]/gi, '').toLowerCase();
 
       if (!trimmedWord) {
         break;
@@ -20,7 +19,6 @@ class Dictionary {
       }
 
       this.dict[trimmedWord]++;
-      this.sum++;
     }
   }
 
@@ -30,6 +28,16 @@ class Dictionary {
 
   keys() {
     return Object.keys(this.dict);
+  }
+
+  sum() {
+    let sum = 0;
+
+    for (let key of this.keys()) {
+      sum += Math.pow(this.get(key), 2);
+    }
+
+    return Math.sqrt(sum);
   }
 }
 
@@ -43,7 +51,7 @@ function distance(firstText, secondText) {
     sum += firstDict.get(key) * secondDict.get(key);
   }
 
-  return sum / (firstDict.sum * secondDict.sum);
+  return sum / (firstDict.sum() * secondDict.sum());
 }
 
 module.exports = {

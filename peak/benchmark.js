@@ -1,7 +1,7 @@
 'use strict';
 
 var Benchmark = require('benchmark');
-var Peak = require('./peak.js')
+var Peak = require('./peak.js');
 
 var suite = new Benchmark.Suite;
 

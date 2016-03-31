@@ -65,4 +65,4 @@ module.exports = {
   halfBinary: function(array2D) {
     return halfBinary(array2D, 0, array2D.length - 1);
   }
-}
+};
