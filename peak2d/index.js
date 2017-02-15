@@ -1,5 +1,3 @@
-'use strict';
-
 function _maxElementIndex(array) {
   var index = 0;
 

@@ -1,8 +1,7 @@
 const assert = require('assert');
-
 const Booking = require('./booking');
 
-describe('reserve', function() {
+describe('Booking#reserve', function() {
   const array = [1, 14, 3, 17, 92, 89, 102, 44, 6, 16, 77, 9, 100, 65, 54];
   const k = 3;
 
@@ -25,7 +24,7 @@ describe('reserve', function() {
   });
 });
 
-describe('rank', function () {
+describe('Booking#rank', function () {
   const array = [1, 14, 3, 17, 92, 89, 102, 44, 6, 16, 77, 9, 100, 65, 54];
   const k = 3;
 

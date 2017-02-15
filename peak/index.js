@@ -1,5 +1,3 @@
-'use strict';
-
 function naive(array) {
   let length = array.length;
 

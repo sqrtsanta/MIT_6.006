@@ -1,5 +1,3 @@
-'use strict';
-
 function _swap(array, first, second) {
   let tmp = array[first];
 

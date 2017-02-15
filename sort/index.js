@@ -1,5 +1,3 @@
-'use strict';
-
 function insertion(array) {
   let subarray = [];
 
