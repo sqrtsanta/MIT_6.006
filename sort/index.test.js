@@ -7,13 +7,13 @@ const sorted = [-10, -2, 1, 1, 1, 2, 3, 3, 4, 5, 6, 7, 8, 8, 9, 19, 21, 22, 22, 
 Sort.insertion(unsorted);
 Sort.merge(unsorted);
 
-describe('Sort#insertion', function() {
+describe('Sort#insertion', () => {
   it('sort array', () => {
     assert.deepEqual(Sort.insertion(unsorted), sorted);
   });
 });
 
-describe('Sort#merge', function() {
+describe('Sort#merge', () => {
   it('sort array', () => {
     assert.deepEqual(Sort.merge(unsorted), sorted);
   });

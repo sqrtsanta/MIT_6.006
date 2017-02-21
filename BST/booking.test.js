@@ -1,7 +1,7 @@
 const assert = require('assert');
 const Booking = require('./booking');
 
-describe('Booking#reserve', function() {
+describe('Booking#reserve', () => {
   const array = [1, 14, 3, 17, 92, 89, 102, 44, 6, 16, 77, 9, 100, 65, 54];
   const k = 3;
 
@@ -16,15 +16,15 @@ describe('Booking#reserve', function() {
     [21, true],
   ];
 
-  tests.forEach(t => {
-    it('at ' + t[0] + ' -> ' + t[1], () => {
+  tests.forEach((t) => {
+    it(`at ${t[0]} -> ${t[1]}`, () => {
       const service = new Booking(array, k);
       assert.equal(service.reserve(t[0]), t[1]);
     });
   });
 });
 
-describe('Booking#rank', function () {
+describe('Booking#rank', () => {
   const array = [1, 14, 3, 17, 92, 89, 102, 44, 6, 16, 77, 9, 100, 65, 54];
   const k = 3;
 
@@ -35,8 +35,8 @@ describe('Booking#rank', function () {
     [18, 7],
   ];
 
-  tests.forEach(t => {
-    it('at ' + t[0] + ' -> ' + t[1], () => {
+  tests.forEach((t) => {
+    it(`at ${t[0]} -> ${t[1]}`, () => {
       const service = new Booking(array, k);
       assert.equal(service.rank(t[0]), t[1]);
     });
