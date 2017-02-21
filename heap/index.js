@@ -1,16 +1,16 @@
 function _swap(array, first, second) {
-  let tmp = array[first];
+  const tmp = array[first];
 
-  array[first] = array[second];
-  array[second] = tmp;
+  array[first] = array[second]; // eslint-disable-line no-param-reassign
+  array[second] = tmp; // eslint-disable-line no-param-reassign
 }
 
 function maxHeapify(array, current) {
-  let length = array.length;
+  const length = array.length;
 
   let largest = current;
-  let left = current * 2;
-  let right = current * 2 + 1;
+  const left = current * 2;
+  const right = (current * 2) + 1;
 
   if (left < length && array[left] > array[largest]) {
     largest = left;
@@ -20,7 +20,7 @@ function maxHeapify(array, current) {
     largest = right;
   }
 
-  if (largest == current) {
+  if (largest === current) {
     return array;
   }
 
@@ -30,7 +30,7 @@ function maxHeapify(array, current) {
 }
 
 function buildMaxHeap(array) {
-  for(let i = Math.floor((array.length - 1) / 2); i > 0; i--){
+  for (let i = Math.floor((array.length - 1) / 2); i > 0; i -= 1) {
     maxHeapify(array, i);
   }
 
@@ -38,11 +38,11 @@ function buildMaxHeap(array) {
 }
 
 function sort(unsorted) {
-  let sorted = [];
+  const sorted = [];
 
-  let heap = buildMaxHeap(unsorted);
+  const heap = buildMaxHeap(unsorted);
 
-  for(let i = unsorted.length - 1; i > 0; i--) {
+  for (let i = unsorted.length - 1; i > 0; i -= 1) {
     _swap(heap, 1, heap.length - 1);
 
     sorted.push(heap[heap.length - 1]);
@@ -56,24 +56,24 @@ function sort(unsorted) {
 }
 
 module.exports = {
-  sort: function(array) {
+  sort: (array) => {
     // shift all elements, so that root element has index = 1, not 0
-    let copy = [undefined].concat(array);
+    const copy = [undefined].concat(array);
 
     return sort(copy);
   },
 
-  buildMaxHeap: function(array) {
+  buildMaxHeap: (array) => {
     // shift all elements, so that root element has index = 1, not 0
-    let copy = [undefined].concat(array);
+    const copy = [undefined].concat(array);
 
     return buildMaxHeap(copy);
   },
 
-  maxHeapify: function(array, index) {
+  maxHeapify: (array, index) => {
     // shift all elements, so that root element has index = 1, not 0
-    let copy = [undefined].concat(array);
+    const copy = [undefined].concat(array);
 
     return maxHeapify(copy, index);
-  }
+  },
 };

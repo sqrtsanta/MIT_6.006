@@ -8,7 +8,7 @@ describe('AVL#height', () => {
   const actualHeight = avlTree.height();
   const expectedHeight = Math.round(Math.log2(array.length));
 
-  it(`the height of AVL tree with ${array.length} nodes is: ${expectedHeight}`, () => {
+  it(`the height of tree with ${array.length} nodes is: ${expectedHeight}`, () => {
     assert.equal(actualHeight, expectedHeight);
   });
 });

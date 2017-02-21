@@ -32,6 +32,14 @@ class Node {
 
   value() { return this._value; }
 
+  left() { return this._left; }
+  setLeft(node) { this._left = node; }
+  isLeft(node) { return this.left() && this.left().value() === node.value(); }
+
+  right() { return this._right; }
+  setRight(node) { this._right = node; }
+  isRight(node) { return this.right() && this.right().value() === node.value(); }
+
   height() { return this._height; }
   calcHeight() {
     const lHeight = this.left() ? this.left().height() : -1;
@@ -45,14 +53,6 @@ class Node {
 
     return lHeight - rHeight;
   }
-
-  left() { return this._left; }
-  setLeft(node) { this._left = node; }
-  isLeft(node) { return this.left() && this.left().value() === node.value(); }
-
-  right() { return this._right; }
-  setRight(node) { this._right = node; }
-  isRight(node) { return this.right() && this.right().value() === node.value(); }
 }
 
 class Tree {
@@ -104,22 +104,21 @@ class Tree {
       return;
     }
 
-    if (diff > 0 && leftChildDiff > 0) {
-      this.rRotate(node);
-    }
-
-    if (diff > 0 && leftChildDiff < 0) {
-      this.lRotate(left);
-      this.rRotate(node);
-    }
-
-    if (diff < 0 && rightChildDiff > 0) {
-      this.rRotate(right);
-      this.lRotate(node);
-    }
-
-    if (diff < 0 && rightChildDiff < 0) {
-      this.lRotate(node);
+    switch (true) { // eslint-disable-line default-case
+      case diff > 0 && leftChildDiff > 0:
+        this.rRotate(node);
+        break;
+      case diff > 0 && leftChildDiff < 0:
+        this.lRotate(left);
+        this.rRotate(node);
+        break;
+      case diff < 0 && rightChildDiff > 0:
+        this.rRotate(right);
+        this.lRotate(node);
+        break;
+      case diff < 0 && rightChildDiff < 0:
+        this.lRotate(node);
+        break;
     }
 
     if (parent) {

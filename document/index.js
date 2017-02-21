@@ -2,11 +2,11 @@ class Dictionary {
   constructor(text) {
     this.dict = {};
 
-    let words = text.split(' ');
+    const words = text.split(' ');
 
-    for(let word of words) {
+    for (const word of words) { // eslint-disable-line no-restricted-syntax
       // allow only Latin & Russian characters, digits and underscore
-      let trimmedWord = word.replace(/[^\w\u0430-\u044f]/gi, '').toLowerCase();
+      const trimmedWord = word.replace(/[^\w\u0430-\u044f]/gi, '').toLowerCase();
 
       if (!trimmedWord) {
         break;
@@ -16,7 +16,7 @@ class Dictionary {
         this.dict[trimmedWord] = 0;
       }
 
-      this.dict[trimmedWord]++;
+      this.dict[trimmedWord] += 1;
     }
   }
 
@@ -31,8 +31,8 @@ class Dictionary {
   sum() {
     let sum = 0;
 
-    for (let key of this.keys()) {
-      sum += Math.pow(this.get(key), 2);
+    for (const key of this.keys()) { // eslint-disable-line no-restricted-syntax
+      sum += Math.pow(this.get(key), 2); // eslint-disable-line no-restricted-properties
     }
 
     return Math.sqrt(sum);
@@ -42,10 +42,10 @@ class Dictionary {
 function distance(firstText, secondText) {
   let sum = 0;
 
-  let firstDict  = new Dictionary(firstText);
-  let secondDict = new Dictionary(secondText);
+  const firstDict = new Dictionary(firstText);
+  const secondDict = new Dictionary(secondText);
 
-  for(let key of firstDict.keys()) {
+  for (const key of firstDict.keys()) { // eslint-disable-line no-restricted-syntax
     sum += firstDict.get(key) * secondDict.get(key);
   }
 
@@ -53,5 +53,5 @@ function distance(firstText, secondText) {
 }
 
 module.exports = {
-  distance: distance
+  distance,
 };
