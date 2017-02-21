@@ -18,9 +18,15 @@
       "imports": "always-multiline",
       "exports": "always-multiline",
       "functions": "ignore",
-    }]
+    }],
+    "no-unused-expressions": ["error", {
+      "allowTernary": true,
+    }],
   },
   "parserOptions": {
     "ecmaVersion": 6
   },
+  "env": {
+    "mocha": true,
+  }
 }
