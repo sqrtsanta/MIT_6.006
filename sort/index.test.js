@@ -1,20 +1,40 @@
 const assert = require('assert');
-const Sort = require('./index.js');
 
-const unsorted = [1, -10, 2, 3, -2, 9, 8, 4, 3, 19, 22, 89, 1, 1, 23, 22, 21, 5, 6, 7, 8, 100];
-const sorted = [-10, -2, 1, 1, 1, 2, 3, 3, 4, 5, 6, 7, 8, 8, 9, 19, 21, 22, 22, 23, 89, 100];
+const insertion = require('./insertion');
+const merge = require('./merge');
+const counting = require('./counting');
+const radix = require('./radix');
 
-Sort.insertion(unsorted);
-Sort.merge(unsorted);
+const unsorted = [1, 2, 3, 9, 8, 4, 3, 19, 22, 89, 1, 1, 23, 22, 21, 5, 6, 7, 8, 100];
+const sorted = [1, 1, 1, 2, 3, 3, 4, 5, 6, 7, 8, 8, 9, 19, 21, 22, 22, 23, 89, 100];
+
+insertion(unsorted);
+merge(unsorted);
 
 describe('Sort#insertion', () => {
   it('sort array', () => {
-    assert.deepEqual(Sort.insertion(unsorted), sorted);
+    assert.deepEqual(insertion(unsorted), sorted);
   });
 });
 
 describe('Sort#merge', () => {
   it('sort array', () => {
-    assert.deepEqual(Sort.merge(unsorted), sorted);
+    assert.deepEqual(merge(unsorted), sorted);
+  });
+});
+
+describe('Sort#counting', () => {
+  it('sort array', () => {
+    const keymax = Math.max(...unsorted);
+
+    assert.deepEqual(counting(unsorted, keymax), sorted);
+  });
+});
+
+describe('Sort#radix', () => {
+  it('sort array', () => {
+    const keymax = Math.max(...unsorted);
+
+    assert.deepEqual(radix(unsorted, keymax), sorted);
   });
 });
