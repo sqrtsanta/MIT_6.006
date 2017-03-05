@@ -20,20 +20,22 @@ function uhf(capacity) {
 }
 
 /*
-* ChainingHash
+* TableDoublingHash
 * Insert, Delete, Search - O(1)
 *
-* simple approach: key -> underlying_array[key]
-* but what if the key is too big: too much wasted memory
-* the solution is to transform: key -> hash(key)
-* the is the possibility of collision: k1 != k2; hash(k1) == hash(k2)
-* then keep them in linked list
+* The problem with ChainingHash
+* we need to define capacity, but data is coming in unpredictible way
+* solution:
+*   define initial capacity,
+*   enlarge it on insert if necessary
+*   shrink it on delete if necessary
 */
-class ChainingHash {
-  constructor(numberOfHashSlots) {
-    this._capacity = numberOfHashSlots;
+class TableDoublingHash {
+  constructor(cap = 8) {
     this._table = [];
-    this._hashf = uhf(numberOfHashSlots);
+    this._capacity = cap;
+    this._length = 0;
+    this._hashf = uhf(cap);
   }
 
   insert(key, value) {
@@ -41,12 +43,21 @@ class ChainingHash {
 
     if (!this._table[hashKey]) {
       this._table[hashKey] = new LinkedList(key, value);
+      this._length += 1;
     } else {
       const list = this._table[hashKey];
 
-      // do not keep duplicates, overwrite them
-      list.delete(key);
-      list.insert(key, value);
+      if (list.search(key)) {
+        list.delete(key);
+        list.insert(key, value);
+      } else {
+        list.insert(key, value);
+        this._length += 1;
+      }
+    }
+
+    if (this._length >= this._capacity) {
+      this.enlarge();
     }
   }
 
@@ -56,6 +67,11 @@ class ChainingHash {
     if (this._table[hashKey]) {
       const list = this._table[hashKey];
       list.delete(key);
+      this._length -= 1;
+    }
+
+    if (this._table.length / 4 >= this._capacity) {
+      this.shrink();
     }
   }
 
@@ -73,6 +89,32 @@ class ChainingHash {
       return item.value();
     }
   }
+
+  rebuild(cap) {
+    const oldTable = this._table;
+
+    this._table = [];
+    this._capacity = cap;
+    this._length = 0;
+    this._hashf = uhf(cap);
+
+    oldTable.forEach((list) => {
+      if (list) {
+        // code smell, implementation details
+        list.forEach((item) => {
+          this.insert(item.key(), item.value());
+        });
+      }
+    });
+  }
+
+  enlarge() {
+    this.rebuild(this._capacity * 2);
+  }
+
+  shrink() {
+    this.rebuild(this._capacity / 2);
+  }
 }
 
-module.exports = ChainingHash;
+module.exports = TableDoublingHash;
