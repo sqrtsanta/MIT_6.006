@@ -6,8 +6,8 @@ const LinkedList = require('../linked_list');
 function uhf(capacity) {
   /*
   * a prime number greater than the maximum value of a hash key that will be given
-  * I picked 10000th prime number, just because fuck u, thats why
-  * but may be I should implement function nextPrime(keyMax)
+  * I picked 10000th prime number
+  * should I implement function nextPrime()?
   */
   const prime = 104729;
 

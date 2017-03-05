@@ -22,6 +22,8 @@
     "no-unused-expressions": ["error", {
       "allowTernary": true,
     }],
+    "no-restricted-properties": 1,
+    "no-bitwise": 0,
   },
   "parserOptions": {
     "ecmaVersion": 6
