@@ -16,7 +16,9 @@ class Item {
 
 class LinkedList {
   constructor(key, value) {
-    this._curr = new Item(key, value);
+    if (key && value) {
+      this._curr = new Item(key, value);
+    }
   }
 
   insert(key, value) {
