@@ -1,7 +1,7 @@
 {
   "node": true,
   "esversion": 6,
-  "extends": "airbnb-base",
+  "extends": ["airbnb-base", "prettier"],
   "rules": {
     "camelcase": 0,
     "max-len": [1, 120, 2, {"ignoreComments": true}],
@@ -17,18 +17,19 @@
       "objects": "always-multiline",
       "imports": "always-multiline",
       "exports": "always-multiline",
-      "functions": "ignore",
+      "functions": "ignore"
     }],
     "no-unused-expressions": ["error", {
-      "allowTernary": true,
+      "allowTernary": true
     }],
     "no-restricted-properties": 1,
     "no-bitwise": 0,
+    "linebreak-style": 0
   },
   "parserOptions": {
     "ecmaVersion": 6
   },
   "env": {
-    "mocha": true,
+    "mocha": true
   }
 }

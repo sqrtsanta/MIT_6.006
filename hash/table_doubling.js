@@ -1,23 +1,5 @@
-const LinkedList = require('../linked_list');
-
-/*
-* uhf - Universal Hash Function
-*/
-function uhf(capacity) {
-  /*
-  * a prime number greater than the maximum value of a hash key that will be given
-  * I picked 10000th prime number, just because fuck u, thats why
-  * but may be I should implement function nextPrime(keyMax)
-  */
-  const prime = 104729;
-
-  const a = Math.floor(Math.random() * (prime));           // {0, 1, ..., p-1}
-  const b = Math.floor((Math.random() * (prime - 1)) + 1); // {1, 2, ..., p-1}
-
-  return (bigInt) => {
-    return (((a * bigInt) + b) % prime) % capacity;
-  };
-}
+const LinkedList = require("../linked_list");
+const { universalHashF } = require("./utils");
 
 /*
 * TableDoublingHash
@@ -31,53 +13,57 @@ function uhf(capacity) {
 *   shrink it on delete if necessary
 */
 class TableDoublingHash {
-  constructor(cap = 8) {
-    this._table = [];
-    this._capacity = cap;
-    this._length = 0;
-    this._hashf = uhf(cap);
+  constructor(capacity = 8) {
+    this.init(capacity);
+  }
+
+  init(capacity) {
+    this.table = [];
+    this.capacity = capacity;
+    this.length = 0;
+    this.hashF = universalHashF(capacity);
   }
 
   insert(key, value) {
-    const hashKey = this._hashf(key);
+    const hashKey = this.hashF(key);
 
-    if (!this._table[hashKey]) {
-      this._table[hashKey] = new LinkedList(key, value);
-      this._length += 1;
+    if (!this.table[hashKey]) {
+      this.table[hashKey] = new LinkedList(key, value);
+      this.length += 1;
     } else {
-      const list = this._table[hashKey];
+      const list = this.table[hashKey];
 
       if (list.search(key)) {
         list.delete(key);
         list.insert(key, value);
       } else {
         list.insert(key, value);
-        this._length += 1;
+        this.length += 1;
       }
     }
 
-    if (this._length >= this._capacity) {
+    if (this.length >= this.capacity) {
       this.enlarge();
     }
   }
 
   delete(key) {
-    const hashKey = this._hashf(key);
+    const hashKey = this.hashF(key);
 
-    if (this._table[hashKey]) {
-      const list = this._table[hashKey];
+    if (this.table[hashKey]) {
+      const list = this.table[hashKey];
       list.delete(key);
-      this._length -= 1;
+      this.length -= 1;
     }
 
-    if (this._table.length / 4 >= this._capacity) {
+    if (this.length / 4 >= this.capacity) {
       this.shrink();
     }
   }
 
-  retrieve(key) {
-    const hashKey = this._hashf(key);
-    const list = this._table[hashKey];
+  search(key) {
+    const hashKey = this.hashF(key);
+    const list = this.table[hashKey];
 
     if (!list) {
       return;
@@ -90,18 +76,14 @@ class TableDoublingHash {
     }
   }
 
-  rebuild(cap) {
-    const oldTable = this._table;
+  rebuild(capacity) {
+    const oldTable = this.table.slice(0);
 
-    this._table = [];
-    this._capacity = cap;
-    this._length = 0;
-    this._hashf = uhf(cap);
+    this.init(capacity);
 
-    oldTable.forEach((list) => {
+    oldTable.forEach(list => {
       if (list) {
-        // code smell, implementation details
-        list.forEach((item) => {
+        list.forEach(item => {
           this.insert(item.key(), item.value());
         });
       }
@@ -109,11 +91,11 @@ class TableDoublingHash {
   }
 
   enlarge() {
-    this.rebuild(this._capacity * 2);
+    this.rebuild(this.capacity * 2);
   }
 
   shrink() {
-    this.rebuild(this._capacity / 2);
+    this.rebuild(this.capacity / 2);
   }
 }
 

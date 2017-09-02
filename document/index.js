@@ -1,4 +1,4 @@
-class Dictionary {
+class DictionaryHistogram {
   constructor(text) {
     this.dict = {};
 
@@ -20,36 +20,36 @@ class Dictionary {
     }
   }
 
-  get(key) {
+  getOccurencies(key) {
     return this.dict[key] || 0;
   }
 
-  keys() {
+  getVocabulary() {
     return Object.keys(this.dict);
   }
 
-  sum() {
-    let sum = 0;
+  getVectorLength() {
+    let length = 0;
 
-    for (const key of this.keys()) { // eslint-disable-line no-restricted-syntax
-      sum += Math.pow(this.get(key), 2); // eslint-disable-line no-restricted-properties
+    for (const word of this.getVocabulary()) { // eslint-disable-line no-restricted-syntax
+      length += Math.pow(this.getOccurencies(word), 2); // eslint-disable-line no-restricted-properties
     }
 
-    return Math.sqrt(sum);
+    return Math.sqrt(length);
   }
 }
 
 function distance(firstText, secondText) {
-  let sum = 0;
+  let dotProduct = 0;
 
-  const firstDict = new Dictionary(firstText);
-  const secondDict = new Dictionary(secondText);
+  const firstHistogram = new DictionaryHistogram(firstText);
+  const secondHistogram = new DictionaryHistogram(secondText);
 
-  for (const key of firstDict.keys()) { // eslint-disable-line no-restricted-syntax
-    sum += firstDict.get(key) * secondDict.get(key);
+  for (const word of firstHistogram.getVocabulary()) { // eslint-disable-line no-restricted-syntax
+    dotProduct += firstHistogram.getOccurencies(word) * secondHistogram.getOccurencies(word);
   }
 
-  return sum / (firstDict.sum() * secondDict.sum());
+  return dotProduct / (firstHistogram.getVectorLength() * secondHistogram.getVectorLength());
 }
 
 module.exports = {
