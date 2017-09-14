@@ -22,8 +22,9 @@
     "no-unused-expressions": ["error", {
       "allowTernary": true
     }],
-    "no-restricted-properties": 1,
+    "no-restricted-properties": 0,
     "no-bitwise": 0,
+    "no-loop-func": 0,
     "linebreak-style": 0
   },
   "parserOptions": {
