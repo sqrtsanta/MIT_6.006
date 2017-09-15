@@ -1,7 +1,7 @@
 const assert = require('assert');
-const { Vertex, DepthFirst } = require("./index");
+const { Vertex, BreadthFirst, DepthFirst } = require("./index");
 
-describe("DepthFirst", () => {
+describe("Graph", () => {
   const a = new Vertex('a');
   const b = new Vertex('b');
   const c = new Vertex('c');
@@ -14,19 +14,39 @@ describe("DepthFirst", () => {
   d.setNeighbours([b, c, e]);
   e.setNeighbours([d]);
 
-  describe("#each", () => {
-    it("traverse graph in depth-first way", () => {
-      const path = [];
+  describe("BreadthFirst", () => {
+    describe("#each", () => {
+      it("traverse graph in depth-first way", () => {
+        const path = [];
 
-      DepthFirst.each((vertex, levelIndex) => {
-        if (path[levelIndex]) {
-          path[levelIndex].push(vertex.getValue());
-        } else {
-          path[levelIndex] = [vertex.getValue()];
-        }
-      }, a);
+        BreadthFirst.each((vertex, levelIndex) => {
+          if (path[levelIndex]) {
+            path[levelIndex].push(vertex.getValue());
+          } else {
+            path[levelIndex] = [vertex.getValue()];
+          }
+        }, a);
 
-      assert.deepEqual([["a"], ["b", "c"], ["d"], ["e"]], path);
+        assert.deepEqual([["a"], ["b", "c"], ["d"], ["e"]], path);
+      });
+    })
+  });
+
+  describe("DepthFirst", () => {
+    describe("#each", () => {
+      it("traverse graph in depth-first way", () => {
+        const path = [];
+
+        DepthFirst.each((vertex, levelIndex) => {
+          if (path[levelIndex]) {
+            path[levelIndex].push(vertex.getValue());
+          } else {
+            path[levelIndex] = [vertex.getValue()];
+          }
+        }, a);
+
+        assert.deepEqual([["a"], ["b"], ["d"], ["c", "e"]], path);
+      });
     });
-  })
+  });
 });

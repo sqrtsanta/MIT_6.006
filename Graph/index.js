@@ -16,32 +16,32 @@ class Vertex {
   }
 }
 
-class DepthFirst {
-  static each(f, vertex) {
-    let levelIndex = 0;
+class BreadthFirst {
+  static each(f, initialVertex) {
+    let levelIndex = 1;
 
     const levelDict = {
-      [vertex.getValue()]: levelIndex,
+      [initialVertex.getValue()]: levelIndex,
     };
 
-    f(vertex, levelIndex);
+    f(initialVertex, levelIndex - 1);
 
-    let frontier = vertex.getNeighbours();
+    let frontier = [initialVertex];
     let nextFrontier = [];
 
     while (frontier.length !== 0) {
       levelIndex += 1;
 
-      frontier.forEach(nextVertex => {
-        if (levelDict[nextVertex.getValue()] == null) {
-          levelDict[nextVertex.getValue()] = levelIndex;
+      frontier.forEach(vertex => {
+        vertex.getNeighbours().forEach((childVertex) => {
+          if (!levelDict[childVertex.getValue()]) {
+            levelDict[childVertex.getValue()] = levelIndex;
 
-          f(nextVertex, levelIndex);
+            f(childVertex, levelIndex - 1, vertex);
 
-          nextVertex.getNeighbours().forEach((neighbourVertex) => {
-            nextFrontier.push(neighbourVertex);
-          });
-        }
+            nextFrontier.push(childVertex);
+          }
+        });
       });
 
       frontier = nextFrontier;
@@ -50,7 +50,34 @@ class DepthFirst {
   }
 }
 
+class DepthFirst {
+  static each(f, initialVertex) {
+    const levelIndex = 1;
+
+    const levelDict = {
+      [initialVertex.getValue()]: levelIndex,
+    };
+
+    f(initialVertex, levelIndex - 1);
+
+    const innerEach = (innerF, innerVertex, innerLevelIndex) => {
+      innerVertex.getNeighbours().forEach((childVertex) => {
+        if (!levelDict[childVertex.getValue()]) {
+          levelDict[childVertex.getValue()] = innerLevelIndex;
+
+          innerF(childVertex, innerLevelIndex - 1, innerVertex);
+
+          innerEach(f, childVertex, innerLevelIndex + 1);
+        }
+      });
+    }
+
+    innerEach(f, initialVertex, levelIndex + 1);
+  }
+}
+
 module.exports = {
   Vertex,
+  BreadthFirst,
   DepthFirst,
 };
