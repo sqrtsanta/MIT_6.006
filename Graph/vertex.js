@@ -22,6 +22,8 @@ class Vertex {
     const edge = new Edge(this, vertex, properties);
 
     this.edges.push(edge);
+
+    return edge;
   }
 
   getEdges() {
