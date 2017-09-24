@@ -24,7 +24,7 @@ class Heap {
     const heap = new Heap(array, invariantF);
 
     while (heap.length > 0) {
-      sorted.push(heap.extract());
+      sorted.push(heap.extractNext());
     }
 
     return sorted;
@@ -54,7 +54,7 @@ class Heap {
     return Heap.heapify(array, target, invariantF);
   }
 
-  extract() {
+  extractNext() {
     swap(this.array, 1, this.length);
 
     const last = this.array[this.length];

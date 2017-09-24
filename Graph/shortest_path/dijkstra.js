@@ -1,3 +1,4 @@
+const Heap = require("../../heap");
 const { ShortestPathDictionary } = require("./utils");
 
 const Dijkstra = {
@@ -11,22 +12,13 @@ const Dijkstra = {
 
     const dict = new ShortestPathDictionary(startVertex);
 
-    const Q = G.getVertices().slice();
+    const Q = new Heap(G.getVertices(), (left, right) => {
+      return dict.get(left).weight < dict.get(right).weight;
+    });
+
+    // @TODO This can probably violate heap
     while(Q.length > 0) {
-      // Since Q is Array, we get O(n2) complexity
-      // can be improved by min-heap or fibonacci-heap
-      const minVertex = Q.sort((leftVertex, rightVertex) => {
-        const left = dict.get(leftVertex).weight;
-        const right = dict.get(rightVertex).weight;
-
-        if(!isFinite(left - right)) {
-          return isFinite(left) ? -1 : 1;
-        }
-
-        return left - right;
-      }).shift();
-
-      minVertex.getEdges().forEach(edge => {
+      Q.extractNext().getEdges().forEach(edge => {
         dict.relax(edge);
       });
     }
