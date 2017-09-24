@@ -38,12 +38,20 @@ class ShortestPathDictionary {
     return path.reverse();
   }
 
-  relax(edge) {
+  isRelaxable(edge) {
     const origin = this.get(edge.origin);
     const destination = this.get(edge.destination);
 
-    if (destination.weight > origin.weight + edge.weight) {
-      this.set(edge.destination, edge.origin, origin.weight + edge.weight);
+    return destination.weight > origin.weight + edge.weight;
+  }
+
+  relax(edge) {
+    if (this.isRelaxable(edge)) {
+      this.set(
+        edge.destination,
+        edge.origin,
+        this.get(edge.origin).weight + edge.weight
+      );
     }
   }
 }

@@ -1,7 +1,6 @@
-const Heap = require("../../heap");
 const { ShortestPathDictionary } = require("./utils");
 
-const Dijkstra = {
+const BellmanFord = {
   find(G, startVertex, endVertex) {
     if (startVertex === endVertex) {
       return {
@@ -12,17 +11,24 @@ const Dijkstra = {
 
     const dict = new ShortestPathDictionary(startVertex);
 
-    const Q = new Heap(G.getVertices(), (left, right) => {
-      return dict.get(left).weight < dict.get(right).weight;
+    G.getVertices().forEach(() => {
+      G.getEdges().forEach(edge => {
+        dict.relax(edge);
+      });
     });
 
-    // @TODO This can probably violate heap
-    while (Q.length > 0) {
-      Q.extractNext()
-        .getEdges()
-        .forEach(edge => {
-          dict.relax(edge);
-        });
+    let isAcyclic = false;
+    G.getEdges().forEach(edge => {
+      if (!isAcyclic && dict.isRelaxable(edge)) {
+        isAcyclic = true;
+      }
+    });
+
+    if (isAcyclic) {
+      return {
+        path: [],
+        weight: undefined,
+      };
     }
 
     const path = dict.path(endVertex);
@@ -35,4 +41,4 @@ const Dijkstra = {
   },
 };
 
-module.exports = Dijkstra;
+module.exports = BellmanFord;
