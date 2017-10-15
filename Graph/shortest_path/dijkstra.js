@@ -16,13 +16,14 @@ const Dijkstra = {
       return dict.get(left).weight < dict.get(right).weight;
     });
 
-    // @TODO This can probably violate heap
     while (Q.length > 0) {
       Q.extractNext()
         .getEdges()
         .forEach(edge => {
           dict.relax(edge);
         });
+
+      Q.rebuild(); // since we could violate a heap
     }
 
     const path = dict.path(endVertex);

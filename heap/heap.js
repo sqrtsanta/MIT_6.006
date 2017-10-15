@@ -8,14 +8,22 @@ const swap = (array, first, second) => {
 class Heap {
   constructor(array, invariantF) {
     const shifted = [undefined].concat(array);
+    this.invariantF = invariantF;
 
-    for (let index = Math.floor((shifted.length - 1) / 2); index > 0; index -= 1) {
-      Heap.heapify(shifted, index, invariantF);
+    this.build(shifted);
+  }
+
+  rebuild() {
+    this.build(this.array);
+  }
+
+  build(array) {
+    for (let index = Math.floor((array.length - 1) / 2); index > 0; index -= 1) {
+      Heap.heapify(array, index, this.invariantF);
     }
 
-    this.array = shifted;
-    this.length = shifted.length - 1;
-    this.invariantF = invariantF;
+    this.array = array;
+    this.length = array.length - 1;
   }
 
   static sort(array, invariantF) {
