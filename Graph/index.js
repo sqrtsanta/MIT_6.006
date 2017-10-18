@@ -8,6 +8,7 @@ const DFS = require("./dfs");
 const Naive = require("./shortest_path/naive");
 const Dijkstra = require("./shortest_path/dijkstra");
 const BellmanFord = require("./shortest_path/bellman_ford");
+const BidirectionalDijkstra = require("./shortest_path/bidirectional_dijkstra");
 
 module.exports = {
   Graph,
@@ -19,5 +20,6 @@ module.exports = {
     Naive,
     Dijkstra,
     BellmanFord,
+    BidirectionalDijkstra,
   },
 };

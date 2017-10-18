@@ -168,6 +168,29 @@ describe("Graph", () => {
           assert.deepEqual(weight, 6);
         });
       });
+
+      describe("BidirectionalDijkstra#find", () => {
+        it("finds shortest path between vertices a & h", () => {
+          const { path, weight } = shortestPath.BidirectionalDijkstra.find(G, a, h);
+
+          assert.deepEqual(path, ["a", "e", "g", "d", "h"]);
+          assert.deepEqual(weight, 12);
+        });
+
+        it("finds shortest path between vertices a & a", () => {
+          const { path, weight } = shortestPath.BidirectionalDijkstra.find(G, a, a);
+
+          assert.deepEqual(path, []);
+          assert.deepEqual(weight, 0);
+        });
+
+        it("finds shortest path between vertices e & f", () => {
+          const { path, weight } = shortestPath.BidirectionalDijkstra.find(G, e, f);
+
+          assert.deepEqual(path, ["e", "a", "b", "f"]);
+          assert.deepEqual(weight, 6);
+        });
+      });
     });
   });
 

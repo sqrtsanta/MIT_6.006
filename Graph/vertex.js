@@ -4,6 +4,7 @@ class Vertex {
   constructor(value) {
     this.value = value;
     this.edges = [];
+    this.incomingEdges = [];
   }
 
   setValue(value) {
@@ -21,13 +22,26 @@ class Vertex {
   connectWith(vertex, properties) {
     const edge = new Edge(this, vertex, properties);
 
-    this.edges.push(edge);
+    this.addEdge(edge);
+    vertex.addIncomingEdge(edge);
 
     return edge;
   }
 
   getEdges() {
     return this.edges;
+  }
+
+  addEdge(edge) {
+    this.edges.push(edge);
+  }
+
+  getIncomingEdges() {
+    return this.incomingEdges;
+  }
+
+  addIncomingEdge(edge) {
+    this.incomingEdges.push(edge);
   }
 }
 

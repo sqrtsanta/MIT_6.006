@@ -1,12 +1,13 @@
 const orInfinity = (number) => Number.isInteger(number) ? number : Infinity;
 
 class ShortestPathDictionary {
-  constructor(startVertex) {
+  constructor(startVertex, config = {}) {
     this.P = {};
     this.W = {
       [startVertex.getValue()]: 0,
     };
     this.startVertex = startVertex;
+    this.config = config;
   }
 
   get(vx) {
@@ -21,7 +22,7 @@ class ShortestPathDictionary {
     this.W[vx.getValue()] = weight;
   }
 
-  path(endVertex) {
+  path(endVertex, options = {}) {
     const path = [];
     let vertex = endVertex;
 
@@ -35,22 +36,33 @@ class ShortestPathDictionary {
       }
     }
 
-    return path.reverse();
+    return options.isBackward ? path : path.reverse();
+  }
+
+  getOrigin(edge) {
+    return this.config.isBackward ? edge.destination : edge.origin;
+  }
+
+  getDestination(edge) {
+    return this.config.isBackward ? edge.origin : edge.destination;
   }
 
   isRelaxable(edge) {
-    const origin = this.get(edge.origin);
-    const destination = this.get(edge.destination);
+    const origin = this.getOrigin(edge);
+    const destination = this.getDestination(edge);
 
-    return destination.weight > origin.weight + edge.weight;
+    return this.get(destination).weight > this.get(origin).weight + edge.weight;
   }
 
   relax(edge) {
     if (this.isRelaxable(edge)) {
+      const origin = this.getOrigin(edge);
+      const destination = this.getDestination(edge);
+
       this.set(
-        edge.destination,
-        edge.origin,
-        this.get(edge.origin).weight + edge.weight
+        destination,
+        origin,
+        this.get(origin).weight + edge.weight
       );
     }
   }
