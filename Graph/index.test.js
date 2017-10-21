@@ -1,4 +1,5 @@
 const assert = require('assert');
+
 const { Graph, Vertex, BFS, DFS, shortestPath } = require("./index");
 
 describe("Graph", () => {
